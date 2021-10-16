@@ -6,23 +6,35 @@ const User = require('../models/user');
 const Auth = require('../middlewares/authentication')
 
 //routes
-router.get('/', Auth, async (req, res)=>{
+router.get('/students', async (req, res)=>{
     const students = await Student.find();
     res.send(students);
 });
 
-router.post('/', async (req, res)=>{    
+router.post('/students', async (req, res)=>{    
     // res.send(new Product(req.body));
     const student = new Student(req.body);
     await student.save();
     res.send(student);
 });
 
-router.get('/:id', async (req, res)=>{
+router.get('/students/:id', async (req, res)=>{
+    console.log(req.params)
     const student = await Student.findById(req.params.id);
     res.send(student);
 });
 
+router.delete('/students/:id', async (req, res)=>{
+    console.log(req.params)
+    const student = await Student.findByIdAndDelete(req.params.id);
+    res.send(student);
+});
+
+router.put('/students/:id', async (req, res)=>{
+    console.log(req.params)
+    const student = await Student.findByIdAndUpdate(req.params.id, req.body);
+    res.send(student);
+});
 //------------------------ Auth routes
 router.post('/register', async (req, res)=>{
     try {
